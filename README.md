@@ -1,2 +1,2 @@
 # DES_502_project_new
-New Project with PUN
+A unity multiplayer FPS game for the course DES_502, made using PUN for networking.
