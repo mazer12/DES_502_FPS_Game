@@ -17,6 +17,7 @@ public class PlayerGroundCheck : MonoBehaviour
             return;
 
         playerController.SetGroundedState(true);
+        
     }
 
     void OnTriggerExit(Collider other)
@@ -33,6 +34,7 @@ public class PlayerGroundCheck : MonoBehaviour
             return;
 
         playerController.SetGroundedState(true);
+        
     }
 }
 

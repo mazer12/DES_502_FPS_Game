@@ -5,10 +5,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
     [SerializeField] GameObject cameraHolder;
 
-    [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
+    [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, maxAnimSpeed, jumpForce, smoothTime;
 
+    public Animator anim;
+    private bool isJumping;
+    private bool isGrounded;
     float verticalLookRotation;
     bool grounded;
     Vector3 smoothMoveVelocity;
@@ -41,6 +45,17 @@ public class PlayerController : MonoBehaviour
         Look();
         Move();
         Jump();
+        if (grounded)
+        {
+            anim.SetBool("isGrounded", true);
+            anim.SetBool("isJumping", false);
+            anim.SetBool("isFalling", false);
+        }
+        else
+        {
+            anim.SetBool("isGrounded", false);
+            anim.SetBool("isFalling", true);
+        }
     }
 
     void Look()
@@ -58,12 +73,31 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
         moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
+
+        float inputMagnitude = Mathf.Clamp01(moveDir.magnitude) * walkSpeed;
+        float speed = inputMagnitude * walkSpeed;
+        if (Input.GetKey(KeyCode.LeftShift)|| Input.GetKey(KeyCode.RightShift))
+        {
+            inputMagnitude *= 2;
+        }
+        anim.SetFloat("Input Magnitude", inputMagnitude, 0.1f, Time.deltaTime); ;
+
+        if (moveDir != Vector3.zero)
+        {
+            anim.SetBool("isMoving", true);
+        }
+        else
+        {
+            anim.SetBool("isMoving", false);
+        }
+        
     }
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && grounded)
+        if (Input.GetButton("Jump") && grounded)
         {
+            anim.SetBool("isJumping", true);
             rb.AddForce(transform.up * jumpForce);
         }
     }
@@ -79,5 +113,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+
+        
     }
 }
