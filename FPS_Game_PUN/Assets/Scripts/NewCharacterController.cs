@@ -112,6 +112,16 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
             }
         }
 
+        if (itemIndex == 0)
+        {
+            anim.SetLayerWeight(1, 1);
+            anim.SetLayerWeight(2, 0);
+        }
+        else
+        {
+            anim.SetLayerWeight(1, 0);
+            anim.SetLayerWeight(2, 1);
+        }
         if (Input.GetMouseButtonDown(0))
         {
             items[itemIndex].Use();
