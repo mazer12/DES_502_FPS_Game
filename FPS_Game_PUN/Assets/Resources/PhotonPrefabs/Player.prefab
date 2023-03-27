@@ -209,11 +209,10 @@ MonoBehaviour:
   mouseSensitivity: 2
   sprintSpeed: 6
   walkSpeed: 4
+  maxAnimSpeed: 0
   jumpForce: 300
   smoothTime: 0.15
-  itemList:
-  - {fileID: 1263916792427103947}
-  - {fileID: 370598938405135534}
+  anim: {fileID: 0}
 --- !u!114 &5127125034475076071
 MonoBehaviour:
   m_ObjectHideFlags: 0
