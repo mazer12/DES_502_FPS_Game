@@ -46,13 +46,13 @@ public class PlayerManager : MonoBehaviour
 
     void CreateController()
     {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream:FPS_Game_PUN/Assets/Scripts/PlayerManager.cs
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 2"), Vector3.zero, Quaternion.identity);
-=======
-        controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), Vector3.zero, Quaternion.identity, 0, new object[] {PV.ViewID});
-=======
+//<<<<<<< Updated upstream
 //<<<<<<< Updated upstream:FPS_Game_PUN/Assets/Scripts/PlayerManager.cs
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 2"), Vector3.zero, Quaternion.identity);
+//=======
+        controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), Vector3.zero, Quaternion.identity, 0, new object[] {PV.ViewID});
+//=======
+////<<<<<<< Updated upstream:FPS_Game_PUN/Assets/Scripts/PlayerManager.cs
        //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), Vector3.zero, Quaternion.identity);
 //=======
         controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 2"), Vector3.zero, Quaternion.identity, 0, new object[] {PV.ViewID});
@@ -85,13 +85,13 @@ public class PlayerManager : MonoBehaviour
             }
 
         }
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
     }
 
     public void Die()
     {
         PhotonNetwork.Destroy(controller);
         CreateController();
->>>>>>> Stashed changes:FPS_Game_PUN/Assets/Scripts/Menu scripts/PlayerManager.cs
+//>>>>>>> Stashed changes:FPS_Game_PUN/Assets/Scripts/Menu scripts/PlayerManager.cs
     }
 }

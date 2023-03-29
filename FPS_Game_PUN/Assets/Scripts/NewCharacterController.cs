@@ -1,17 +1,21 @@
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NewCharacterController : MonoBehaviour
 {
-<<<<<<< Updated upstream
-=======
+//<<<<<<< Updated upstream
+//=======
     [Header("Item Setup")]
     [SerializeField] Item[] items;
     int itemIndex;
     int previousItemIndex = -1;
 
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
     [Header("Base setup")]
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
@@ -44,8 +48,8 @@ public class NewCharacterController : MonoBehaviour
     //private float cameraZOffset = -1.0f;
     private Camera playerCamera;
 
-<<<<<<< Updated upstream
-=======
+//<<<<<<< Updated upstream
+//=======
     void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -54,7 +58,7 @@ public class NewCharacterController : MonoBehaviour
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
     }
 
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -63,9 +67,9 @@ public class NewCharacterController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-<<<<<<< Updated upstream
+//<<<<<<< Updated upstream
 
-=======
+//=======
         if (PV.IsMine)
         {
             EquipItem(0);
@@ -75,7 +79,7 @@ public class NewCharacterController : MonoBehaviour
             Destroy(GetComponentInChildren<Camera>().gameObject);
             Destroy(rb);
         }
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
     }
     void Look()
     {
@@ -88,8 +92,8 @@ public class NewCharacterController : MonoBehaviour
     }
     void Update()
     {
-<<<<<<< Updated upstream
-=======
+//<<<<<<< Updated upstream
+//=======
         if (!PV.IsMine)
             return;
 
@@ -139,7 +143,7 @@ public class NewCharacterController : MonoBehaviour
         {
             items[itemIndex].Use();
         }
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
         Look();
         bool isRunning = false;
 
@@ -223,8 +227,8 @@ public class NewCharacterController : MonoBehaviour
             Cursor.visible = true;
         }
     }
-<<<<<<< Updated upstream
-=======
+//<<<<<<< Updated upstream
+//=======
     void EquipItem(int _index)
     {
         if (_index == previousItemIndex)
@@ -286,5 +290,5 @@ public class NewCharacterController : MonoBehaviour
     {
         playerManager.Die();
     }
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
 }
