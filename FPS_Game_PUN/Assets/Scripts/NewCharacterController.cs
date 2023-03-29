@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class NewCharacterController : MonoBehaviour
 {
+<<<<<<< Updated upstream
+=======
+    [Header("Item Setup")]
+    [SerializeField] Item[] items;
+    int itemIndex;
+    int previousItemIndex = -1;
+
+>>>>>>> Stashed changes
     [Header("Base setup")]
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
@@ -21,16 +29,32 @@ public class NewCharacterController : MonoBehaviour
 
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
-    float rotationX = 0;
+    //float rotationX = 0;
+    PhotonView PV;
+    Rigidbody rb;
+    const float maxHealth = 100f;
+    float currentHealth = maxHealth;
+    PlayerManager playerManager;
 
     [HideInInspector]
     public bool canMove = true;
 
     [SerializeField]
-    private float cameraYOffset = 0.4f;
+    //private float cameraYOffset = 0.4f;
     //private float cameraZOffset = -1.0f;
     private Camera playerCamera;
 
+<<<<<<< Updated upstream
+=======
+    void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();
+
+        playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+    }
+
+>>>>>>> Stashed changes
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -39,7 +63,19 @@ public class NewCharacterController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+<<<<<<< Updated upstream
 
+=======
+        if (PV.IsMine)
+        {
+            EquipItem(0);
+        }
+        else
+        {
+            Destroy(GetComponentInChildren<Camera>().gameObject);
+            Destroy(rb);
+        }
+>>>>>>> Stashed changes
     }
     void Look()
     {
@@ -52,6 +88,58 @@ public class NewCharacterController : MonoBehaviour
     }
     void Update()
     {
+<<<<<<< Updated upstream
+=======
+        if (!PV.IsMine)
+            return;
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (Input.GetKeyDown((i + 1).ToString()))
+            {
+                EquipItem(i);
+                break;
+            }
+        }
+
+        if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+        {
+            if (itemIndex >= items.Length - 1)
+            {
+                EquipItem(0);
+            }
+            else
+            {
+                EquipItem(itemIndex + 1);
+            }
+        }
+        else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+        {
+            if (itemIndex <= 0)
+            {
+                EquipItem(items.Length - 1);
+            }
+            else
+            {
+                EquipItem(itemIndex - 1);
+            }
+        }
+
+        if (itemIndex == 0)
+        {
+            anim.SetLayerWeight(1, 1);
+            anim.SetLayerWeight(2, 0);
+        }
+        else
+        {
+            anim.SetLayerWeight(1, 0);
+            anim.SetLayerWeight(2, 1);
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            items[itemIndex].Use();
+        }
+>>>>>>> Stashed changes
         Look();
         bool isRunning = false;
 
@@ -135,4 +223,68 @@ public class NewCharacterController : MonoBehaviour
             Cursor.visible = true;
         }
     }
+<<<<<<< Updated upstream
+=======
+    void EquipItem(int _index)
+    {
+        if (_index == previousItemIndex)
+            return;
+
+        itemIndex = _index;
+
+        items[itemIndex].itemGameObject.SetActive(true);
+
+        if (previousItemIndex != -1)
+        {
+            items[previousItemIndex].itemGameObject.SetActive(false);
+        }
+
+        previousItemIndex = itemIndex;
+
+        if (PV.IsMine)
+        {
+            Hashtable hash = new Hashtable();
+            hash.Add("itemIndex", itemIndex);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
+    }
+    void FixedUpdate()
+    {
+        if (!PV.IsMine)
+            return;
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if (!PV.IsMine && targetPlayer == PV.Owner)
+        {
+            EquipItem((int)changedProps["itemIndex"]);
+        }
+    }
+    public void TakeDamage(float damage)
+    {
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+    }
+
+    [PunRPC]
+    void RPC_TakeDamage(float damage)
+    {
+        if (!PV.IsMine)
+            return;
+
+        currentHealth -= damage;
+
+        //ahealthbarImage.fillAmount = currentHealth / maxHealth;
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        playerManager.Die();
+    }
+>>>>>>> Stashed changes
 }
