@@ -1,18 +1,30 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPunCallbacks, IDamagable
 {
 
     [SerializeField] GameObject cameraHolder;
 
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, maxAnimSpeed, jumpForce, smoothTime;
 
+<<<<<<< Updated upstream
     public Animator anim;
     private bool isJumping;
     private bool isGrounded;
+=======
+    [SerializeField] Item[] itemList;
+
+    int currentItemIndex;
+    int previousItemIndex = -1;
+    bool gunEquiped = false; //Initially no gun equipped, so player cant shoot bullet. 
+
+>>>>>>> Stashed changes
     float verticalLookRotation;
     bool grounded;
     Vector3 smoothMoveVelocity;
@@ -22,20 +34,36 @@ public class PlayerController : MonoBehaviour
 
     PhotonView PV;
 
+    const float maxHealth = 100f;
+    float currHealth = maxHealth;
+
+    PlayerManager playerManager;
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
+
+        playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
     }
 
     void Start()
     {
         if (!PV.IsMine)
+        if (PV.IsMine)
+        {
+            return;
+        }
+        else
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
             Destroy(rb);
         }
+    
     }
+
+    int mod(int k, int n) { return ((k %= n) < 0) ? k + n : k; }
 
     void Update()
     {
@@ -45,6 +73,7 @@ public class PlayerController : MonoBehaviour
         Look();
         Move();
         Jump();
+<<<<<<< Updated upstream
         if (grounded)
         {
             anim.SetBool("isGrounded", true);
@@ -55,6 +84,27 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("isGrounded", false);
             anim.SetBool("isFalling", true);
+=======
+
+       
+
+        if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+        {
+            int temp = mod((currentItemIndex + 1),  2);
+            EquipItem(temp);
+            gunEquiped = true;
+        }
+        if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+        {
+            int temp = mod((currentItemIndex - 1), 2);
+            EquipItem(temp);
+            gunEquiped= true;
+        }
+
+        if (Input.GetMouseButtonDown(0) && gunEquiped) 
+        {
+            itemList[currentItemIndex].Use();
+>>>>>>> Stashed changes
         }
     }
 
@@ -107,6 +157,41 @@ public class PlayerController : MonoBehaviour
         grounded = _grounded;
     }
 
+
+    void EquipItem(int index)
+    {
+        if(index == previousItemIndex)
+        {
+            return;
+        }
+
+        currentItemIndex = index;
+
+        itemList[currentItemIndex].itemGameObj.SetActive(true);
+
+        if(previousItemIndex != -1)
+        {
+            itemList[previousItemIndex].itemGameObj.SetActive(false);
+        }
+
+        previousItemIndex = currentItemIndex;
+
+        if (PV.IsMine)
+        {
+            Hashtable hash = new Hashtable();
+            hash.Add("currentItemIndex", currentItemIndex);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if(!PV.IsMine && targetPlayer == PV.Owner)
+        {
+            EquipItem((int)changedProps["currentItemIndex"]);
+        }
+    }
+
     void FixedUpdate()
     {
         if (!PV.IsMine)
@@ -115,5 +200,29 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
 
         
+    }
+
+    public void TakeDamage(float damage)
+    {
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+    }
+
+    [PunRPC]
+    public void RPC_TakeDamage(float damage)
+    {
+        if(!PV.IsMine)
+            return;
+
+        currHealth -= damage;
+
+        if(currHealth <= 0.0f)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        playerManager.Die();
     }
 }
