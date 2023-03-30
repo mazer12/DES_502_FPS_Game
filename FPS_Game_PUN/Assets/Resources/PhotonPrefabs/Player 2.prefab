@@ -210,6 +210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044211a24f4d76b4891cbb0a7d9fa3d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  items:
+  - {fileID: 908923322084728644}
+  - {fileID: 2967727707377504262}
   walkingSpeed: 3
   runningSpeed: 7
   jumpSpeed: 10
@@ -219,7 +222,7 @@ MonoBehaviour:
   isJumpingAnim: 0
   isGroundedAnim: 0
   canMove: 1
-  playerCamera: {fileID: 0}
+  cameraYOffset: 0.8
 --- !u!1 &717537496217999893
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,8 +255,6 @@ Transform:
   m_Father: {fileID: 6545310464851273881}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &878138455544056830
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8855298077304774819}
   - component: {fileID: 2967727707377504262}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Rifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,7 +314,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 345133884080388074}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: attackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +336,6 @@ Transform:
   m_Father: {fileID: 7380507149427482554}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> Stashed changes
 --- !u!1 &4596692414429114468
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,8 +394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d150a3137e6ec64e9616eaa077b9400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< Updated upstream
-=======
 --- !u!1 &5179871520836820819
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,7 +403,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8566003172059043807}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: attackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +425,6 @@ Transform:
   m_Father: {fileID: 2494708635776227678}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> Stashed changes
 --- !u!1 &5254266058849533033
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +454,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1429913038131034658}
   m_Father: {fileID: 7762318633889723663}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -492,7 +490,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 375
+    m_Bits: 119
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -512,8 +510,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5254266058849533033}
   m_Enabled: 1
-<<<<<<< Updated upstream
-=======
 --- !u!1 &6118277610578077741
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,7 +670,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7677981489315577216}
   - component: {fileID: 908923322084728644}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -845,11 +841,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 50eedf5ac5d51b7409069307f10011be,
         type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 50eedf5ac5d51b7409069307f10011be,
-        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -867,7 +858,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2671836569034817205}
   m_PrefabAsset: {fileID: 0}
->>>>>>> Stashed changes
 --- !u!1001 &5142062401516007863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1161,6 +1151,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d60da331693eb4549b35851f6c38163c, type: 3}
+--- !u!4 &1366083403971475010 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3050895055062153227, guid: d60da331693eb4549b35851f6c38163c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5142062401516007863}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &1600698900765756454 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: d60da331693eb4549b35851f6c38163c,
@@ -1173,8 +1169,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5142062401516007863}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &5448563158846131430 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d60da331693eb4549b35851f6c38163c,
@@ -1287,11 +1281,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3b2416c53f10a144b9be2eacd3ffe6e0,
         type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 3b2416c53f10a144b9be2eacd3ffe6e0,
-        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1309,4 +1298,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7054446105700235345}
   m_PrefabAsset: {fileID: 0}
->>>>>>> Stashed changes
