@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PlayerController : MonoBehaviour
 public class PlayerController : MonoBehaviourPunCallbacks, IDamagable
 {
 
@@ -13,18 +12,18 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamagable
 
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, maxAnimSpeed, jumpForce, smoothTime;
 
-<<<<<<< Updated upstream
+//<<<<<<< Updated upstream
     public Animator anim;
     private bool isJumping;
     private bool isGrounded;
-=======
+//=======
     [SerializeField] Item[] itemList;
 
     int currentItemIndex;
     int previousItemIndex = -1;
     bool gunEquiped = false; //Initially no gun equipped, so player cant shoot bullet. 
 
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
     float verticalLookRotation;
     bool grounded;
     Vector3 smoothMoveVelocity;
@@ -73,7 +72,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamagable
         Look();
         Move();
         Jump();
-<<<<<<< Updated upstream
+        //<<<<<<< Updated upstream
         if (grounded)
         {
             anim.SetBool("isGrounded", true);
@@ -84,27 +83,28 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamagable
         {
             anim.SetBool("isGrounded", false);
             anim.SetBool("isFalling", true);
-=======
+            //=======
 
-       
 
-        if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
-        {
-            int temp = mod((currentItemIndex + 1),  2);
-            EquipItem(temp);
-            gunEquiped = true;
-        }
-        if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
-        {
-            int temp = mod((currentItemIndex - 1), 2);
-            EquipItem(temp);
-            gunEquiped= true;
-        }
 
-        if (Input.GetMouseButtonDown(0) && gunEquiped) 
-        {
-            itemList[currentItemIndex].Use();
->>>>>>> Stashed changes
+            if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+            {
+                int temp = mod((currentItemIndex + 1), 2);
+                EquipItem(temp);
+                gunEquiped = true;
+            }
+            if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+            {
+                int temp = mod((currentItemIndex - 1), 2);
+                EquipItem(temp);
+                gunEquiped = true;
+            }
+
+            if (Input.GetMouseButtonDown(0) && gunEquiped)
+            {
+                itemList[currentItemIndex].Use();
+                //>>>>>>> Stashed changes
+            }
         }
     }
 
@@ -167,11 +167,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamagable
 
         currentItemIndex = index;
 
-        itemList[currentItemIndex].itemGameObj.SetActive(true);
+        itemList[currentItemIndex].itemGameObject.SetActive(true);    
 
         if(previousItemIndex != -1)
         {
-            itemList[previousItemIndex].itemGameObj.SetActive(false);
+            itemList[previousItemIndex].itemGameObject.SetActive(false);
         }
 
         previousItemIndex = currentItemIndex;

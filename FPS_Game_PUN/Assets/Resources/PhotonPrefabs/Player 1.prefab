@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8214670755501526780
 Transform:
   m_ObjectHideFlags: 0
@@ -212,6 +212,7 @@ MonoBehaviour:
   jumpForce: 300
   smoothTime: 0.15
   anim: {fileID: 3711750289530269388}
+  itemList: []
 --- !u!114 &5127125034475076071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1261,7 +1262,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7937934370997415436}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
   m_Name: 
