@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
+using UnityEditor;
+using System.Linq;
+using System.Globalization;
 
 public class PlayerManager : MonoBehaviour
 {
     PhotonView PV;
+    GameObject controller1;
+    GameObject controller2;
     GameObject controller;
-
+    public int currentPlayer;
+    
+    public static PlayerManager instance;
     void Awake()
     {
+        instance = this;    
         PV = GetComponent<PhotonView>();
     }
 
@@ -18,22 +26,55 @@ public class PlayerManager : MonoBehaviour
     {
         if (PV.IsMine)
         {
+            //updatePlayer();
             CreateController();
+
         }
+
     }
 
     void CreateController()
     {
-//<<<<<<< Updated upstream:FPS_Game_PUN/Assets/Scripts/PlayerManager.cs
-       //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), Vector3.zero, Quaternion.identity);
-//=======
-        controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 1"), Vector3.zero, Quaternion.identity, 0, new object[] {PV.ViewID});
+        
+        //if (PhotonNetwork.IsMasterClient)
+        //{
+        //    Transform spawn = SpawnManager.instance.GetTeamSpawn(0);
+        //    controller1 = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 1"), spawn.position, spawn.rotation, 0, new object[] { PV.ViewID });
+        //    //number.Add("Blue");
+        //}
+        //else
+        //{
+        //    Transform spawn = SpawnManager.instance.GetTeamSpawn(1);
+        //    controller2 = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 2"), spawn.position, spawn.rotation, 0, new object[] { PV.ViewID });
+        //}
+        controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 1"), Vector3.zero, Quaternion.identity, 0, new object[] { PV.ViewID });
+
     }
 
     public void Die()
     {
         PhotonNetwork.Destroy(controller);
         CreateController();
-//>>>>>>> Stashed changes:FPS_Game_PUN/Assets/Scripts/Menu scripts/PlayerManager.cs
+
     }
+
+   
+    //public void updatePlayer()
+    //{
+    //    PV.RPC("RPC_GetPlayer", RpcTarget.OthersBuffered, currentPlayer);
+    //}
+
+    //[PunRPC]
+
+    //public void RPC_GetPlayer(int currentPlayer)
+    //{
+    //    if (currentPlayer == 1)
+    //    {
+    //        currentPlayer = 2;
+    //    }
+    //    else
+    //    {
+    //        currentPlayer = 1;
+    //    }
+    //}
 }

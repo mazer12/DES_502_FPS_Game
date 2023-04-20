@@ -14,7 +14,7 @@ TagManager:
   - Female
   - Male
   - Weapon
-  - 
+  - Female neck
   - 
   - 
   - 
@@ -40,4 +40,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: New Layer 1
+    uniqueID: 783493011
     locked: 0

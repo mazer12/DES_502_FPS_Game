@@ -33,7 +33,7 @@ public class Gun : Item
         if(Physics.Raycast(ray, out hit))
         {
             targetPoint = hit.point;
-            //Debug.Log("we shot " + hit.collider.gameObject.name);
+            Debug.Log("we shot " + hit.collider.gameObject.name);
             hit.collider.gameObject.GetComponent<IDamagable>()?.TakeDamage(((GunInfo)itemInfo).damage);
 
         } else { targetPoint = ray.GetPoint(75);}

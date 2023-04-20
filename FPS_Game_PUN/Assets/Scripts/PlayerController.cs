@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PlayerController : MonoBehaviourPunCallbacks, IDamagable
+public class PlayerController : MonoBehaviourPunCallbacks //IDamagable
 {
 
     [SerializeField] GameObject cameraHolder;
@@ -199,30 +199,30 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamagable
 
         rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
 
-        
+
     }
 
-    public void TakeDamage(float damage)
-    {
-        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
-    }
+//    public void TakeDamage(float damage)
+//    {
+//        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+//    }
 
-    [PunRPC]
-    public void RPC_TakeDamage(float damage)
-    {
-        if(!PV.IsMine)
-            return;
+//    [PunRPC]
+//    public void RPC_TakeDamage(float damage)
+//    {
+//        if (!PV.IsMine)
+//            return;
 
-        currHealth -= damage;
+//        currHealth -= damage;
 
-        if(currHealth <= 0.0f)
-        {
-            Die();
-        }
-    }
+//        if (currHealth <= 0.0f)
+//        {
+//            Die();
+//        }
+//    }
 
-    void Die()
-    {
-        playerManager.Die();
-    }
+//    void Die()
+//    {
+//        //playerManager.Die();
+//    }
 }

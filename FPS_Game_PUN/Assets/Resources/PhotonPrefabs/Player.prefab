@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: 3226f0bb655333742bb08e4fe7b51e80, type: 2}
-  itemGameObj: {fileID: 1615910851820119944}
+  itemGameObject: {fileID: 0}
   cam: {fileID: 6354483963247606631}
   attackPoint: {fileID: 114428945707980262}
   bullet: {fileID: 5440573323256398933, guid: ba3f65a83788c904ab89eac824e65fdc, type: 3}
@@ -64,8 +64,8 @@ GameObject:
   - component: {fileID: 8856904158417760199}
   - component: {fileID: 6715811528696756542}
   - component: {fileID: 9173418062945921985}
-  - component: {fileID: 715232357979763009}
   - component: {fileID: 5127125034475076071}
+  - component: {fileID: 117251292948967481}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -151,10 +151,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.5421893
+  m_Height: 1.9968421
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.022647858, y: -0.001578927, z: 0.019541562}
 --- !u!114 &6715811528696756542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,26 +193,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &715232357979763009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 258949565441483261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d762244c17538b4896d3d2aef1995cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraHolder: {fileID: 717537496217999893}
-  mouseSensitivity: 2
-  sprintSpeed: 6
-  walkSpeed: 4
-  maxAnimSpeed: 0
-  jumpForce: 300
-  smoothTime: 0.15
-  anim: {fileID: 0}
 --- !u!114 &5127125034475076071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,8 +206,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
+  m_SynchronizeRotation: 0
   m_SynchronizeScale: 0
+--- !u!114 &117251292948967481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258949565441483261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 951dcab18e47c574a825f2efac36b144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  stoppingDistance: 2
+  retreatDistance: 3
+  patrolDistance: 5
+  attackDistance: 1
+  attackTime: 1
+  enemyDamage: 10
+  grounded: 0
+  currentHealth: 100
 --- !u!1 &717537496217999893
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7762318633889723663
 Transform:
   m_ObjectHideFlags: 0
@@ -275,7 +276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8793738278208382467
 Transform:
   m_ObjectHideFlags: 0
@@ -576,7 +577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: b9d6401396e21d44ba861fb1cac69122, type: 2}
-  itemGameObj: {fileID: 6432879443517294267}
+  itemGameObject: {fileID: 0}
   cam: {fileID: 6354483963247606631}
   attackPoint: {fileID: 8850525564730130535}
   bullet: {fileID: 5440573323256398933, guid: ba3f65a83788c904ab89eac824e65fdc, type: 3}

@@ -8,14 +8,22 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
 {
+    [SerializeField] Image HealthBarImage;
+    [SerializeField] GameObject ui;
+
+    [SerializeField] GameObject cameraHolder;
 
     [SerializeField] Item[] items;
 
     int itemIndex;
     int previousItemIndex = -1;
+
     PhotonView PV;
+    Rigidbody rb;
+
     const float maxHealth = 100f;
     float currentHealth = maxHealth;
+
     PlayerManager playerManager;
 
     [Header("Base setup")]
@@ -25,7 +33,7 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
     private float gravity = 20.0f;
     public float mouseSensitivity;
     private float verticalLookRotation;
-    public GameObject cameraHolder;
+    
 
     [Header("Animator")]
     public Animator anim;
@@ -43,11 +51,11 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
     [SerializeField]
     private float cameraYOffset = 0.4f;
     //private float cameraZOffset = -1.0f;
-    private Camera playerCamera;
 
     void Awake()
     {
         PV = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();
 
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
     }
@@ -63,10 +71,14 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
         if (PV.IsMine)
         {
             EquipItem(0);
+            
         }
         else
         {
+
             Destroy(GetComponentInChildren<Camera>().gameObject);
+            Destroy(rb);
+            Destroy(ui);
         }
     }
     void Look()
@@ -80,6 +92,10 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
     }
     void Update()
     {
+        if (!PV.IsMine)
+            return;
+
+
         for (int i = 0; i < items.Length; i++)
         {
             if (Input.GetKeyDown((i + 1).ToString()))
@@ -208,6 +224,13 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+
+        if (Input.GetMouseButton(0))
+        {
+            // Lock cursor
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
     void EquipItem(int _index)
     {
@@ -240,25 +263,36 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
             EquipItem((int)changedProps["itemIndex"]);
         }
     }
+
+    void FixedUpdate()
+    {
+        if (!PV.IsMine)
+            return;
+
+        rb.MovePosition(rb.position + transform.TransformDirection(moveDirection) * Time.fixedDeltaTime);
+        
+    }
+
     public void TakeDamage(float damage)
     {
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
     }
 
     [PunRPC]
-    void RPC_TakeDamage(float damage)
+    public void RPC_TakeDamage(float damage)
     {
         if (!PV.IsMine)
             return;
 
         currentHealth -= damage;
 
-        //ahealthbarImage.fillAmount = currentHealth / maxHealth;
+        HealthBarImage.fillAmount = currentHealth / maxHealth;
 
         if (currentHealth <= 0)
         {
             Die();
-        }
+        }  
+
     }
 
     void Die()

@@ -34,6 +34,9 @@ MonoBehaviour:
   - ClickRpc
   - DestroyRpc
   - RPC_TakeDamage
+  - RPC_GetPlayer
+  - RPC_TakeDamage1
+  - RPC_TakeDamageEnemy
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
