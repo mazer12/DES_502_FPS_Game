@@ -14,7 +14,9 @@ public class PlayerManager : MonoBehaviour
     GameObject controller2;
     GameObject controller;
     public int currentPlayer;
-    
+
+    public Animator anim;
+
     public static PlayerManager instance;
     void Awake()
     {
@@ -48,6 +50,7 @@ public class PlayerManager : MonoBehaviour
         //    controller2 = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 2"), spawn.position, spawn.rotation, 0, new object[] { PV.ViewID });
         //}
         controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 1"), Vector3.zero, Quaternion.identity, 0, new object[] { PV.ViewID });
+        anim = controller.GetComponentInChildren<Animator>();
 
     }
 

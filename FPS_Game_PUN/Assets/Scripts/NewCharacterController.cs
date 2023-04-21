@@ -40,7 +40,6 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
     public bool isJumpingAnim;
     public bool isGroundedAnim;
 
-
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
@@ -130,13 +129,13 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
 
         if (itemIndex == 0)
         {
-            anim.SetLayerWeight(1, 1);
-            anim.SetLayerWeight(2, 0);
+            playerManager.anim.SetLayerWeight(1, 1);
+            playerManager.anim.SetLayerWeight(2, 0);
         }
         else
         {
-            anim.SetLayerWeight(1, 0);
-            anim.SetLayerWeight(2, 1);
+            playerManager.anim.SetLayerWeight(1, 0);
+            playerManager.anim.SetLayerWeight(2, 1);
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -160,11 +159,11 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
         // Handle Animations
         if (moveDirection != Vector3.zero)
         {
-            anim.SetBool("isMoving", true);
+            playerManager.anim.SetBool("isMoving", true);
         }
         else
         {
-            anim.SetBool("isMoving", false);
+            playerManager.anim.SetBool("isMoving", false);
         }
         float inputMagnitude = Mathf.Clamp01(moveDirection.magnitude);
         float speed = inputMagnitude * walkingSpeed;
@@ -172,25 +171,25 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
         {
             inputMagnitude = inputMagnitude * 2;
         }
-        anim.SetFloat("Input Magnitude", inputMagnitude, 0.1f, Time.deltaTime);
+        playerManager.anim.SetFloat("Input Magnitude", inputMagnitude, 0.1f, Time.deltaTime);
 
         if (characterController.isGrounded)
         {
-            anim.SetBool("isGrounded", true);
-            anim.SetBool("isFalling", false);
-            anim.SetBool("isJumping", false);
+            playerManager.anim.SetBool("isGrounded", true);
+            playerManager.anim.SetBool("isFalling", false);
+            playerManager.anim.SetBool("isJumping", false);
 
         }
         else
         {
-            anim.SetBool("isGrounded", false);
-            anim.SetBool("isFalling", true);
+            playerManager.anim.SetBool("isGrounded", false);
+            playerManager.anim.SetBool("isFalling", true);
         }
 
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
             moveDirection.y = jumpSpeed;
-            anim.SetBool("isJumping", true);
+            playerManager.anim.SetBool("isJumping", true);
         }
         else
         {
