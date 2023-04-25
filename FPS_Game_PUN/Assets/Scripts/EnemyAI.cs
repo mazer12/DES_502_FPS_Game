@@ -22,6 +22,7 @@ public class EnemyAI : MonoBehaviourPunCallbacks, IDamagable
 
     public bool grounded;
     public float currentHealth = 100f;
+    public Animator anim;
 
     private Transform target;
     //private float shotTime;
@@ -51,11 +52,13 @@ public class EnemyAI : MonoBehaviourPunCallbacks, IDamagable
             {
                 patrolling = true;
                 SetPatrolPoint();
+                anim.SetBool("IsMoving", true);
             }
 
             if (patrolling && Vector3.Distance(transform.position, patrolPoint) < 1f)
             {
                 patrolling = false;
+                anim.SetBool("IsMoving", false);
             }
 
             if (!attacking && Vector3.Distance(transform.position, target.position) < attackDistance)
@@ -71,6 +74,7 @@ public class EnemyAI : MonoBehaviourPunCallbacks, IDamagable
                 if (Time.time >= attackStartTime + attackTime)
                 {
                     Attack();
+                    anim.SetBool("IsAttacking", true);
                     attackStartTime = Time.time;
                 }
 
@@ -81,6 +85,7 @@ public class EnemyAI : MonoBehaviourPunCallbacks, IDamagable
             }
             else if (patrolling)
             {
+                anim.SetBool("IsAttacking", false);
                 transform.position = Vector3.MoveTowards(transform.position, patrolPoint, speed * Time.deltaTime);
             }
             else

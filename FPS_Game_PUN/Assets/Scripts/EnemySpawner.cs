@@ -37,7 +37,7 @@ public class EnemySpawner : MonoBehaviourPunCallbacks
     {
         Transform spawn = SpawnManager.instance.GetRandomenemySpawn();
         Vector3 spawnPosition = spawn.position + new Vector3(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f));
-        enemyObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPosition, Quaternion.identity, 0, new object[] {PV.ViewID} );
+        enemyObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 3"), spawnPosition, Quaternion.identity, 0, new object[] {PV.ViewID} );
     }
 
     //public void Die()
