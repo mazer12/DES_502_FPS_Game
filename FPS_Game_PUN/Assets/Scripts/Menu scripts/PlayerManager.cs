@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     GameObject controller;
     public int currentPlayer;
 
+    
     public Animator anim;
 
     public static PlayerManager instance;
@@ -37,20 +38,21 @@ public class PlayerManager : MonoBehaviour
 
     void CreateController()
     {
-        
-        //if (PhotonNetwork.IsMasterClient)
-        //{
-        //    Transform spawn = SpawnManager.instance.GetTeamSpawn(0);
-        //    controller1 = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 1"), spawn.position, spawn.rotation, 0, new object[] { PV.ViewID });
-        //    //number.Add("Blue");
-        //}
-        //else
-        //{
-        //    Transform spawn = SpawnManager.instance.GetTeamSpawn(1);
-        //    controller2 = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 2"), spawn.position, spawn.rotation, 0, new object[] { PV.ViewID });
-        //}
-        controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 1"), Vector3.zero, Quaternion.identity, 0, new object[] { PV.ViewID });
-        anim = controller.GetComponentInChildren<Animator>();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Transform spawn = SpawnManager.instance.GetTeamSpawn(0);
+            controller1 = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 1"), spawn.position, spawn.rotation, 0, new object[] { PV.ViewID });
+            //number.Add("Blue");
+        }
+        else
+        {
+            Transform spawn = SpawnManager.instance.GetTeamSpawn(1);
+            controller2 = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 2"), spawn.position, spawn.rotation, 0, new object[] { PV.ViewID });
+        }
+        //controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player 1"), Vector3.zero, Quaternion.identity, 0, new object[] { PV.ViewID });
+        //anim = controller.GetComponentInChildren<Animator>();
+
 
     }
 

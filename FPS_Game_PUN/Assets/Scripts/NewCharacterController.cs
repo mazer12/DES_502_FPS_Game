@@ -57,6 +57,8 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
         rb = GetComponent<Rigidbody>();
 
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+
+        playerManager.anim = anim;
     }
 
     void Start()
