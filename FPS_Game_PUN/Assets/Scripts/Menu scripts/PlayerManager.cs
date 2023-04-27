@@ -58,8 +58,17 @@ public class PlayerManager : MonoBehaviour
 
     public void Die()
     {
-        PhotonNetwork.Destroy(controller);
-        CreateController();
+        if (controller1)
+        {
+            PhotonNetwork.Destroy(controller1);
+            CreateController();
+        }
+        else
+        {
+            PhotonNetwork.Destroy(controller2);
+            CreateController();
+        }
+        
 
     }
 
