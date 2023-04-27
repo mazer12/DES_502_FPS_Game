@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Gun : Item
 {
 
     [SerializeField] Camera cam;
+    [SerializeField] VisualEffect muzzleFlash;
     public Transform attackPoint;
     public GameObject bullet;
+    public float bulletSpeed;
 
     PhotonView PV;
 
@@ -25,6 +28,8 @@ public class Gun : Item
    
     private void shoot()
     {
+        muzzleFlash.Play();
+
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f,0.5f));
         RaycastHit hit;
 
@@ -43,7 +48,7 @@ public class Gun : Item
         GameObject currentBullet = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), attackPoint.position, Quaternion.identity);
         currentBullet.transform.forward = dirOfBullet.normalized;
 
-        currentBullet.GetComponent<Rigidbody>().AddForce(dirOfBullet.normalized * 20.0f, ForceMode.Impulse);
+        currentBullet.GetComponent<Rigidbody>().AddForce(dirOfBullet.normalized * bulletSpeed, ForceMode.Impulse);
 
       
     }

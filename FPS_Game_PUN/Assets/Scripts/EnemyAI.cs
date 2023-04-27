@@ -74,7 +74,6 @@ public class EnemyAI : MonoBehaviourPunCallbacks, IDamagable
                 if (Time.time >= attackStartTime + attackTime)
                 {
                     Attack();
-                    anim.SetBool("IsAttacking", true);
                     attackStartTime = Time.time;
                 }
 
@@ -85,7 +84,6 @@ public class EnemyAI : MonoBehaviourPunCallbacks, IDamagable
             }
             else if (patrolling)
             {
-                anim.SetBool("IsAttacking", false);
                 transform.position = Vector3.MoveTowards(transform.position, patrolPoint, speed * Time.deltaTime);
             }
             else
@@ -117,6 +115,7 @@ public class EnemyAI : MonoBehaviourPunCallbacks, IDamagable
     {
         if (Vector3.Distance(transform.position, target.position) <= attackDistance)
         {
+            anim.SetBool("IsAttacking", true);
             target.gameObject.GetComponent<IDamagable>()?.TakeDamage(enemyDamage);
             //PlayerHealth playerHealth = target.GetComponent<PlayerHealth>();
             //if (playerHealth != null)

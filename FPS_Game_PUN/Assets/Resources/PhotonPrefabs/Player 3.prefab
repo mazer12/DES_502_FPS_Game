@@ -48,8 +48,10 @@ MonoBehaviour:
   itemInfo: {fileID: 11400000, guid: 3226f0bb655333742bb08e4fe7b51e80, type: 2}
   itemGameObject: {fileID: 0}
   cam: {fileID: 6354483963247606631}
+  muzzleFlash: {fileID: 0}
   attackPoint: {fileID: 114428945707980262}
   bullet: {fileID: 5440573323256398933, guid: ba3f65a83788c904ab89eac824e65fdc, type: 3}
+  bulletSpeed: 0
 --- !u!1 &258949565441483261
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,8 +563,10 @@ MonoBehaviour:
   itemInfo: {fileID: 11400000, guid: b9d6401396e21d44ba861fb1cac69122, type: 2}
   itemGameObject: {fileID: 0}
   cam: {fileID: 6354483963247606631}
+  muzzleFlash: {fileID: 0}
   attackPoint: {fileID: 8850525564730130535}
   bullet: {fileID: 5440573323256398933, guid: ba3f65a83788c904ab89eac824e65fdc, type: 3}
+  bulletSpeed: 0
 --- !u!1 &6432879443517294267
 GameObject:
   m_ObjectHideFlags: 0
