@@ -33,7 +33,9 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
     private float gravity = 20.0f;
     public float mouseSensitivity;
     private float verticalLookRotation;
-    
+    public AudioSource GunSound;
+    public AudioSource footstepsSound, sprintSound;
+
 
     [Header("Animator")]
     public Animator anim;
@@ -96,7 +98,24 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
         if (!PV.IsMine)
             return;
 
-
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                footstepsSound.enabled = false;
+                sprintSound.enabled = true;
+            }
+            else
+            {
+                footstepsSound.enabled = true;
+                sprintSound.enabled = false;
+            }
+        }
+        else
+        {
+            footstepsSound.enabled = false;
+            sprintSound.enabled = false;
+        }
         for (int i = 0; i < items.Length; i++)
         {
             if (Input.GetKeyDown((i + 1).ToString()))
@@ -142,6 +161,7 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
         if (Input.GetMouseButtonDown(0))
         {
             items[itemIndex].Use();
+            GunSound.Play();
         }
         Look();
         bool isRunning = false;
@@ -186,6 +206,8 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
         {
             playerManager.anim.SetBool("isGrounded", false);
             playerManager.anim.SetBool("isFalling", true);
+            footstepsSound.enabled = false;
+            sprintSound.enabled = false;
         }
 
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
