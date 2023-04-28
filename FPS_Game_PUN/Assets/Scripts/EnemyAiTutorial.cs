@@ -12,10 +12,14 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
     public NavMeshAgent agent;
 
     private Transform player;
+    private Rigidbody rb;
+    private Collider col;
 
     public LayerMask whatIsGround, whatIsPlayer;
 
     public float health;
+
+    public Animator anim;
 
     //Patroling
     public Vector3 walkPoint;
@@ -37,10 +41,14 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
+        col = GetComponent<CapsuleCollider>();
     }
 
     private void Update()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
         if (!PV.IsMine)
             return;
 
@@ -62,7 +70,10 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
         if (!walkPointSet) SearchWalkPoint();
 
         if (walkPointSet)
+        {
             agent.SetDestination(walkPoint);
+        }
+        
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
@@ -100,7 +111,7 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
             //Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
             //rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
             //rb.AddForce(transform.up * 8f, ForceMode.Impulse);
-
+            anim.SetTrigger("Attack");
             player.gameObject.GetComponent<IDamagable>()?.TakeDamage(enemyDamage);
             ///End of attack code
 
@@ -111,6 +122,7 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
     private void ResetAttack()
     {
         alreadyAttacked = false;
+        anim.ResetTrigger("Attack");
     }
 
     //public void TakeDamage(int damage)
@@ -152,7 +164,15 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
 
     private void Die()
     {
-        PhotonNetwork.Destroy(gameObject);
+        //PhotonNetwork.Destroy(gameObject);
+        anim.SetBool("IsDead", true);
+        agent.enabled = false;
+        col.enabled = false;
+        rb.useGravity = false;
+        enemyDamage = 0f;
+        sightRange = 0f;
+        attackRange = 0f;
+        rb.velocity = Vector3.zero;
     }
 
     //private void OnDrawGizmosSelected()

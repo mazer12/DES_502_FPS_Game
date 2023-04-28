@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Gun : Item
 {
@@ -11,6 +12,10 @@ public class Gun : Item
     [SerializeField] Camera cam;
     public Transform attackPoint;
     public GameObject bullet;
+    public VisualEffect muzzleFlash;
+    public GameObject hitMarker;
+    public AudioSource hitSound;
+    public float bulletSpeed = 250f;
     List<GameObject> bulletArray = new List<GameObject>();
 
     PhotonView PV;
@@ -18,6 +23,7 @@ public class Gun : Item
     public void Awake()
     {
         PV = GetComponent<PhotonView>();
+        hitMarker.SetActive(false);
     }
     public override void Use()
     {
@@ -28,6 +34,7 @@ public class Gun : Item
    
     private void shoot()
     {
+        muzzleFlash.Play();
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f,0.5f));
         RaycastHit hit;
 
@@ -38,6 +45,12 @@ public class Gun : Item
             targetPoint = hit.point;
             Debug.Log("we shot " + hit.collider.gameObject.name);
             hit.collider.gameObject.GetComponent<IDamagable>()?.TakeDamage(((GunInfo)itemInfo).damage);
+            if (hit.collider.tag == "Enemy" || hit.collider.tag == "Player")
+            {
+                hitMarker.SetActive(true);
+                hitSound.Play();
+                StartCoroutine(HitOff());
+            }
 
         } else { targetPoint = ray.GetPoint(75);}
 
@@ -46,9 +59,15 @@ public class Gun : Item
         GameObject currentBullet = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), attackPoint.position, Quaternion.identity);
         currentBullet.transform.forward = dirOfBullet.normalized;
 
-        currentBullet.GetComponent<Rigidbody>().AddForce(dirOfBullet.normalized * 20.0f, ForceMode.Impulse);
+        currentBullet.GetComponent<Rigidbody>().AddForce(dirOfBullet.normalized * bulletSpeed, ForceMode.Impulse);
         bulletArray.Add(currentBullet);
    
+    }
+
+    IEnumerator HitOff()
+    {
+        yield return new WaitForSeconds(0.2f);
+        hitMarker.SetActive(false);
     }
 
     //private void OnCollisionEnter(Collision collison)

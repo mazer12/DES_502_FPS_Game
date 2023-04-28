@@ -5,8 +5,14 @@ using UnityEngine;
 public class MenuManager : MonoBehaviour
 {
 	public static MenuManager Instance;
+	public AudioSource select;
 
 	[SerializeField] Menu[] menus;
+
+	public void Select()
+	{
+		select.Play();
+	}
 
 	void Awake()
 	{
@@ -44,4 +50,10 @@ public class MenuManager : MonoBehaviour
 	{
 		menu.Close();
 	}
+
+	public void QuitGame()
+    {
+		Debug.Log("Quitting Game...");
+		Application.Quit();
+    }
 }

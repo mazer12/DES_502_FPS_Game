@@ -23,6 +23,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 	public override void OnEnable()
 	{
 		base.OnEnable();
+		
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
