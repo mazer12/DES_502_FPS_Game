@@ -5,7 +5,7 @@ using System.IO;
 public class EnemySpawner : MonoBehaviourPunCallbacks
 {
     //public GameObject enemyPrefab;
-    float spawnInterval = 10f;
+    float spawnInterval = 100f;
     GameObject enemyObject;
     PhotonView PV;
 

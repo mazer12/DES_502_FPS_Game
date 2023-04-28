@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class EnemyAI : MonoBehaviourPunCallbacks, IDamagable
+public class EnemyAI : MonoBehaviourPunCallbacks //IDamagable
 {
     PhotonView PV;
 
@@ -118,54 +118,41 @@ public class EnemyAI : MonoBehaviourPunCallbacks, IDamagable
         if (Vector3.Distance(transform.position, target.position) <= attackDistance)
         {
             target.gameObject.GetComponent<IDamagable>()?.TakeDamage(enemyDamage);
-            //PlayerHealth playerHealth = target.GetComponent<PlayerHealth>();
-            //if (playerHealth != null)
-            //{
-            //    playerHealth.TakeDamage(damage);
-            //}
         }
     }
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (photonView.IsMine && other.CompareTag("Player"))
-    //    {
-    //        other.GetComponent<PlayerHealth>().TakeDamage(damage);
-    //    }
-    //}
 
     public void SetGroundedState(bool _grounded)
     {
         grounded = _grounded;
     }
 
-    public void TakeDamage(float damage)
-    {
-        PV.RPC("RPC_TakeDamage1", RpcTarget.All, damage);
-        //currentHealth -= damage;
+    //public void TakeDamage(float damage)
+    //{
+    //    PV.RPC("RPC_TakeDamage1", RpcTarget.All, damage);
+    //    //currentHealth -= damage;
 
-        //if (currentHealth <= 0f)
-        //{
-        //    Die();
-        //}
-    }
+    //    //if (currentHealth <= 0f)
+    //    //{
+    //    //    Die();
+    //    //}
+    //}
 
-    [PunRPC]
-    public void RPC_TakeDamage1(float damage)
-    {
-        if (!PV.IsMine)
-            return;
+    //[PunRPC]
+    //public void RPC_TakeDamage1(float damage)
+    //{
+    //    if (!PV.IsMine)
+    //        return;
 
-        currentHealth -= damage;
+    //    currentHealth -= damage;
 
-        if (currentHealth <= 0f)
-        {
-            Die();
-        }
-    }
+    //    if (currentHealth <= 0f)
+    //    {
+    //        Die();
+    //    }
+    //}
 
-    private void Die()
-    {
-        PhotonNetwork.Destroy(gameObject);
-    }
+    //private void Die()
+    //{
+    //    PhotonNetwork.Destroy(gameObject);
+    //}
 }

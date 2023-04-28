@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,7 @@ public class Gun : Item
     [SerializeField] Camera cam;
     public Transform attackPoint;
     public GameObject bullet;
+    List<GameObject> bulletArray = new List<GameObject>();
 
     PhotonView PV;
 
@@ -20,6 +22,7 @@ public class Gun : Item
     public override void Use()
     {
         shoot();
+        //kill();
     }
 
    
@@ -44,10 +47,24 @@ public class Gun : Item
         currentBullet.transform.forward = dirOfBullet.normalized;
 
         currentBullet.GetComponent<Rigidbody>().AddForce(dirOfBullet.normalized * 20.0f, ForceMode.Impulse);
-
-      
+        bulletArray.Add(currentBullet);
+   
     }
 
-   
+    //private void OnCollisionEnter(Collision collison)
+    //{
+    //    kill();
+        
+    //}
 
+    //IEnumerator wait()
+    //{
+    //    yield return new WaitForSeconds(2);
+    //}
+    //private void kill()
+    //{
+    //    StartCoroutine(wait());
+    //    PhotonNetwork.Destroy(bulletArray[0]);
+    //    bulletArray.RemoveAt(0);
+    //}
 }
