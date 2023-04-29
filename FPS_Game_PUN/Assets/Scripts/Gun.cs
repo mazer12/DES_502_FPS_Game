@@ -60,7 +60,7 @@ public class Gun : Item
         currentBullet.transform.forward = dirOfBullet.normalized;
 
         currentBullet.GetComponent<Rigidbody>().AddForce(dirOfBullet.normalized * bulletSpeed, ForceMode.Impulse);
-        bulletArray.Add(currentBullet);
+        //bulletArray.Add(currentBullet);
    
     }
 

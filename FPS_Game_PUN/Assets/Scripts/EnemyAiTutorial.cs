@@ -47,39 +47,45 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
 
     private void Update()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-
-        if (!PV.IsMine)
-            return;
-
-        if (player != null)
+        if (agent.isActiveAndEnabled)
         {
-            //Check for sight and attack range
-            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+            player = GameObject.FindGameObjectWithTag("Player").transform;
 
-            if (!playerInSightRange && !playerInAttackRange) Patroling();
-            if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-            if (playerInAttackRange && playerInSightRange) AttackPlayer();
+            if (!PV.IsMine)
+                return;
+
+            if (player != null)
+            {
+                //Check for sight and attack range
+                playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+                playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+
+                if (!playerInSightRange && !playerInAttackRange) Patroling();
+                if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+                if (playerInAttackRange && playerInSightRange) AttackPlayer();
+            }
         }
-        
     }
 
     private void Patroling()
     {
-        if (!walkPointSet) SearchWalkPoint();
-
-        if (walkPointSet)
-        {
-            agent.SetDestination(walkPoint);
-        }
         
 
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
-        //Walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
-            walkPointSet = false;
+            if (!walkPointSet) SearchWalkPoint();
+
+            if (walkPointSet)
+            {
+                agent.SetDestination(walkPoint);
+            }
+
+
+            Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+            //Walkpoint reached
+            if (distanceToWalkPoint.magnitude < 1f)
+                walkPointSet = false;
+
     }
     private void SearchWalkPoint()
     {
@@ -96,6 +102,7 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
+        //transform.LookAt(player.position); 
     }
 
     private void AttackPlayer()

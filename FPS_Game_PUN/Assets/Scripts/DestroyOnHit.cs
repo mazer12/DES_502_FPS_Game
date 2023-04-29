@@ -19,7 +19,7 @@ public class DestroyOnHit : MonoBehaviour
 
     IEnumerator DestroyObject()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }
 }
