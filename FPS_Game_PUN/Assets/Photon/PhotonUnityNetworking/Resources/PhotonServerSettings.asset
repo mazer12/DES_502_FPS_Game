@@ -37,6 +37,12 @@ MonoBehaviour:
   - RPC_GetPlayer
   - RPC_TakeDamage1
   - RPC_TakeDamageEnemy
+  - RPC_GetDamage
+  - RPC_fillAmount
+  - RPC_GetScreen
+  - RPC_GetP1Score
+  - RPC_GetP2Score
+  - RPC_Win
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

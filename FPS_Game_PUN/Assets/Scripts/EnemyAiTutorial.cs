@@ -1,5 +1,6 @@
 ﻿
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 using Photon.Pun;
 
@@ -11,13 +12,17 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
 
     public NavMeshAgent agent;
 
-    private Transform player;
+    public GameObject HPbarCanvas;
+    public Image HealthBar;
+
+    private GameObject[] player;
     private Rigidbody rb;
     private Collider col;
 
     public LayerMask whatIsGround, whatIsPlayer;
 
-    public float health;
+    public float maxHealth;
+    private float health;
 
     public Animator anim;
 
@@ -35,21 +40,41 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    Transform closestTarget = null;
+    public static EnemyAiTutorial instance;
+
+    public AudioSource damageReceivedSound;
+
+    public static int deathCount;
+
+
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
 
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectsWithTag("Player"); //.transform;
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         col = GetComponent<CapsuleCollider>();
+
+        instance= this;
+
+
+    }
+
+    private void Start()
+    {
+        health = maxHealth;
     }
 
     private void Update()
     {
         if (agent.isActiveAndEnabled)
         {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+
+            player = GameObject.FindGameObjectsWithTag("Player");  //.transform;
+
+            FindClosestPlayer();
 
             if (!PV.IsMine)
                 return;
@@ -64,27 +89,43 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
                 if (playerInSightRange && !playerInAttackRange) ChasePlayer();
                 if (playerInAttackRange && playerInSightRange) AttackPlayer();
             }
+            
+           
         }
+    }
+
+    void FindClosestPlayer()
+    {
+        float disToClosestPlayer= Mathf.Infinity;
+        
+        foreach(GameObject target in player)
+        {
+            float disToTarget = (target.transform.position - this.transform.position).sqrMagnitude;
+            if(disToTarget < disToClosestPlayer)
+            {
+                disToClosestPlayer = disToTarget;
+                closestTarget = target.transform;
+            }
+        }
+
     }
 
     private void Patroling()
     {
-        
+
+        if (!walkPointSet) SearchWalkPoint();
+
+        if (walkPointSet)
+        {
+            agent.SetDestination(walkPoint);
+        }
 
 
-            if (!walkPointSet) SearchWalkPoint();
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
-            if (walkPointSet)
-            {
-                agent.SetDestination(walkPoint);
-            }
-
-
-            Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-            //Walkpoint reached
-            if (distanceToWalkPoint.magnitude < 1f)
-                walkPointSet = false;
+        //Walkpoint reached
+        if (distanceToWalkPoint.magnitude < 1f)
+            walkPointSet = false;
 
     }
     private void SearchWalkPoint()
@@ -101,7 +142,7 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
 
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
+        agent.SetDestination(closestTarget.position);
         //transform.LookAt(player.position); 
     }
 
@@ -110,16 +151,13 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
         //Make sure enemy doesn't move
         agent.SetDestination(transform.position);
 
-        transform.LookAt(player);
+        transform.LookAt(closestTarget);
 
         if (!alreadyAttacked)
         {
             ///Attack code here
-            //Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            //rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            //rb.AddForce(transform.up * 8f, ForceMode.Impulse);
             anim.SetTrigger("Attack");
-            player.gameObject.GetComponent<IDamagable>()?.TakeDamage(enemyDamage);
+            closestTarget.gameObject.GetComponent<IDamagable>()?.TakeDamage(enemyDamage);
             ///End of attack code
 
             alreadyAttacked = true;
@@ -156,19 +194,30 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
     }
 
     [PunRPC]
-    public void RPC_TakeDamage1(float damage)
+    public void RPC_TakeDamage1(float damage, PhotonMessageInfo info)
     {
-        if (!PV.IsMine)
-            return;
+        //if (!PV.IsMine)
+        //    return;
 
         health -= damage;
+       
+        damageReceivedSound.Play();
+        if(damageReceivedSound.time > 1.5f)
+            damageReceivedSound.Stop();
+        HealthBar.fillAmount = health / maxHealth;
 
         if (health <= 0f)
         {
-            Die();
+            Die();           
+        }
+
+        if (PV.IsMine)
+        {
+            PlayerManager.Find(info.Sender).GetDamage(damage);
         }
     }
 
+  
     private void Die()
     {
         //PhotonNetwork.Destroy(gameObject);
@@ -180,6 +229,8 @@ public class EnemyAiTutorial : MonoBehaviour, IDamagable
         sightRange = 0f;
         attackRange = 0f;
         rb.velocity = Vector3.zero;
+        HPbarCanvas.SetActive(false);
+        deathCount++;
     }
 
     //private void OnDrawGizmosSelected()

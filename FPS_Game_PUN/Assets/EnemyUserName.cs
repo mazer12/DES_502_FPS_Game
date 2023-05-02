@@ -6,20 +6,16 @@ using Photon.Pun;
 using TMPro;
 
 
-public class UsernameDisplay : MonoBehaviour
+public class EnemyUserName : MonoBehaviour
 {
-    [SerializeField] PhotonView PV;
-    [SerializeField] TMP_Text text;
+    //[SerializeField] PhotonView PV;
+    //[SerializeField] TMP_Text text;
     //public Image playerHealthImage;
     //[SerializeField] Image playerTopHealthImage;
     void Start()
     {
-        if (PV.IsMine)
-        {
-            gameObject.SetActive(false);
-        }
-        text.text = PV.Owner.NickName;
-       
+        
+
         //playerTopHealthImage.fillAmount = playerHealthImage.fillAmount;
     }
 }
