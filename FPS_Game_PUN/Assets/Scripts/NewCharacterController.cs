@@ -5,15 +5,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using TMPro;
 
 public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
 {
     [SerializeField] Image HealthBarImage;
+    [SerializeField] Image playerTopHealthBarImage;
     [SerializeField] GameObject ui;
 
     [SerializeField] GameObject cameraHolder;
 
     [SerializeField] Item[] items;
+
+
+    //[SerializeField] GameObject deathCanvas;
+    //[SerializeField] TextMeshProUGUI txt;
 
     int itemIndex;
     int previousItemIndex = -1;
@@ -34,7 +40,7 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
     public float mouseSensitivity;
     private float verticalLookRotation;
     public AudioSource GunSound;
-    public AudioSource footstepsSound, sprintSound;
+    public AudioSource footstepsSound, sprintSound, damageTakenSound;
 
 
     [Header("Animator")]
@@ -53,6 +59,7 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
     private float cameraYOffset = 0.4f;
     //private float cameraZOffset = -1.0f;
 
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -61,6 +68,9 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
 
         playerManager.anim = anim;
+
+        //playerManager.deathScreen = deathCanvas;
+        //playerManager.txt = txt;
     }
 
     void Start()
@@ -220,8 +230,8 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
             moveDirection.y = movementDirectionY;
         }
 
-        // Hold left Alt to glide
-        if (Input.GetKey(KeyCode.LeftAlt) && !characterController.isGrounded)
+        // Hold V to glide
+        if (Input.GetKey(KeyCode.V) && !characterController.isGrounded)
         {
             gravity = 5.0f;
             moveDirection.y -= gravity * Time.deltaTime;
@@ -276,16 +286,21 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
             Hashtable hash = new Hashtable();
             hash.Add("itemIndex", itemIndex);
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+            //Hashtable hash1 = new Hashtable();
+            //hash.Add("fillAmount", HealthBarImage.fillAmount);
+            //PhotonNetwork.LocalPlayer.SetCustomProperties(hash1);
         }
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if (!PV.IsMine && targetPlayer == PV.Owner)
+        if (changedProps.ContainsKey("itemIndex") && !PV.IsMine && targetPlayer == PV.Owner)
         {
             EquipItem((int)changedProps["itemIndex"]);
+            //playerTopHealthBarImage.fillAmount = (float)changedProps["fillAmount"];
         }
     }
+
 
     void FixedUpdate()
     {
@@ -301,25 +316,53 @@ public class NewCharacterController : MonoBehaviourPunCallbacks, IDamagable
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
     }
 
+    //public void FillAmount(float fillAmount)
+    //{
+    //    PV.RPC("RPC_fillAmount", RpcTarget.All, fillAmount);
+    //}
+
     [PunRPC]
-    public void RPC_TakeDamage(float damage)
+    public void RPC_TakeDamage(float damage, PhotonMessageInfo info)
     {
         if (!PV.IsMine)
+        {
             return;
+        }
 
         currentHealth -= damage;
 
+        //Enemy damage is 20 per hit, this ensures that it does not record damage done by enemy
+        if(damage > 20)
+        {
+            PlayerManager.Find(info.Sender).GetDamage(damage);
+        }
+        
+        damageTakenSound.Play();
+
         HealthBarImage.fillAmount = currentHealth / maxHealth;
+        //playerTopHealthBarImage.fillAmount = currentHealth / maxHealth;
+
 
         if (currentHealth <= 0)
         {
             Die();
-        }  
+        }
 
     }
+
+    //[PunRPC]
+
+    //public void RPC_fillAmount(float fillAmount)
+    //{
+    //    //fillAmount = currentHealth / maxHealth;
+    //    playerTopHealthBarImage.fillAmount = currentHealth / maxHealth;
+    //}
 
     void Die()
     {
         playerManager.Die();
+        // Unlock Curser
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;     
     }
 }

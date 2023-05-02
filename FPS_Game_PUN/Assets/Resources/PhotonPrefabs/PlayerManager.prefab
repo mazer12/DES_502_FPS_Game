@@ -67,5 +67,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ef05f68d1eed7429f6109b0e66b905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayer: 0
+  DamageDone: 0
   anim: {fileID: 0}
