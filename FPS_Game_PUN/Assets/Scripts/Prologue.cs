@@ -17,13 +17,13 @@ public class Prologue : MonoBehaviour
 
     IEnumerator wait()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(7f);
         prologues[1].SetActive(true);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(7f);
         prologues[2].SetActive(true);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(7f);
         prologues[3].SetActive(true);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(7f);
         Destroy(canvas);
         
     }
