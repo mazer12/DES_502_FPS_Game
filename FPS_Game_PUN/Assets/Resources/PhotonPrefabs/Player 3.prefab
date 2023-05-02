@@ -322,7 +322,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 192
-  maxHealth: 500
+  maxHealth: 5000
   anim: {fileID: 7480507975964635112}
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 3
@@ -343,7 +343,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 10
-  m_Acceleration: 5
+  m_Acceleration: 4
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
