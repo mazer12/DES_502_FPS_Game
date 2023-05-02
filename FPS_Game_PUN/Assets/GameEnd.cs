@@ -41,11 +41,11 @@ public class GameEnd : MonoBehaviourPunCallbacks
         //Debug.Log(maxDamage1);
         GetScreen();
 
-        if (p2w == true && p1w == false)
+        if (p2w == true)
         {
             playerUsername.text = PhotonNetwork.PlayerList[1].NickName + " WINS";
         }
-        else if (p1w == true && p2w == false)
+        else if (p1w == true)
         {
             playerUsername.text = PhotonNetwork.PlayerList[0].NickName + " WINS";
         }

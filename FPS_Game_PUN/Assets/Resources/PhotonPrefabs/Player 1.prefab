@@ -324,9 +324,9 @@ MonoBehaviour:
   items:
   - {fileID: 7387584431154389230}
   - {fileID: 2499599879941204722}
-  walkingSpeed: 3
-  runningSpeed: 7
-  jumpSpeed: 10
+  walkingSpeed: 6
+  runningSpeed: 12
+  jumpSpeed: 11
   mouseSensitivity: 2
   GunSound: {fileID: 4856123062903447803}
   footstepsSound: {fileID: 131516445531007811}
